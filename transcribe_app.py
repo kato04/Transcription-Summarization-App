@@ -1,7 +1,7 @@
 import streamlit as st
 from google.cloud import speech
 from google.oauth2 import service_account
-import google.generativeai as genai # Gemini API ライブラリをインポート
+#import google.generativeai as genai # Gemini API ライブラリをインポート
 import json
 import io
 
@@ -19,11 +19,11 @@ try:
     st.sidebar.success("Google Cloud STT 認証 OK")
 
     # Gemini API キー
-    gemini_api_key = st.secrets["gemini_api_key"]
-    genai.configure(api_key=gemini_api_key)
-    gemini_model = genai.GenerativeModel('gemini-pro') # または gemini-1.5-pro-latest など
-    st.sidebar.success("Gemini API 認証 OK")
-    can_summarize = True # 要約機能が利用可能かどうかのフラグ
+    #gemini_api_key = st.secrets["gemini_api_key"]
+    #genai.configure(api_key=gemini_api_key)
+    #gemini_model = genai.GenerativeModel('gemini-pro') # または gemini-1.5-pro-latest など
+    #st.sidebar.success("Gemini API 認証 OK")
+    #can_summarize = True # 要約機能が利用可能かどうかのフラグ
 
 except KeyError as e:
     st.error(f"Streamlit Secrets の設定エラー: '{e}' が見つかりません。")
@@ -102,31 +102,31 @@ if uploaded_file is not None:
                     st.markdown(transcript_text.strip()) # Markdownとして表示
 
                     # --- Gemini API による要約 ---
-                    if can_summarize and full_raw_text:
-                        st.subheader("📝 AIによる要約 (Gemini)")
-                        st.info("Gemini API で要約を生成中...")
+                    #if can_summarize and full_raw_text:
+                    #    st.subheader("📝 AIによる要約 (Gemini)")
+                    #    st.info("Gemini API で要約を生成中...")
 
                         # Gemini に渡すプロンプトを作成
-                        prompt = f"""
-                        以下の会議書き起こしテキストを分析し、主要な議題とそれぞれの内容の要点を箇条書きで簡潔にまとめてください。
+                    #    prompt = f"""
+                    #    以下の会議書き起こしテキストを分析し、主要な議題とそれぞれの内容の要点を箇条書きで簡潔にまとめてください。
 
-                        --- 書き起こしテキスト ---
-                        {full_raw_text.strip()}
-                        --- 要約 ---
-                        """
+                    #    --- 書き起こしテキスト ---
+                    #    {full_raw_text.strip()}
+                    #    --- 要約 ---
+                    #    """
 
-                        try:
+                    #    try:
                             # Gemini API を呼び出し
-                            gemini_response = gemini_model.generate_content(prompt)
+                    #        gemini_response = gemini_model.generate_content(prompt)
 
                             # 要約結果を表示
-                            st.markdown(gemini_response.text)
-                            st.success("要約が完了しました。")
+                    #        st.markdown(gemini_response.text)
+                    #        st.success("要約が完了しました。")
 
-                        except Exception as e:
-                            st.error(f"Gemini API での要約生成中にエラーが発生しました: {e}")
-                    elif not can_summarize:
-                         st.warning("Gemini API の設定に問題があるため、要約機能は利用できません。")
+                    #    except Exception as e:
+                    #        st.error(f"Gemini API での要約生成中にエラーが発生しました: {e}")
+                    #elif not can_summarize:
+                    #     st.warning("Gemini API の設定に問題があるため、要約機能は利用できません。")
 
 
             except Exception as e:
